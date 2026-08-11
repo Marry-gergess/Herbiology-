@@ -1,5 +1,5 @@
 // استبدلي اللينك اللي تحت بلينك الـ Web App URL اللي نسختيه من جوجل سكريبت
-const API_URL = "حطي_الرابط_بتاعك_هنا"; 
+const API_URL = "https://script.google.com/macros/s/AKfycbw2dqI1iQziUWTH-LfYFVAEoK_FM7yOJtMLacWEzrErK3NOPRZI9wOzg_-KiM5R7BgNEA/exec"; 
 
 function showTab(tabId) {
     document.querySelectorAll('.tab-content').forEach(tab => {
