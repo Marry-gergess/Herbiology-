@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>هوجوورتس - قسم علم النباتات</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>🌿 صوبة هوجوورتس للنباتات السحرية</h1>
+        <nav>
+            <button onclick="showTab('encyclopedia')">📚 الموسوعة</button>
+            <button onclick="showTab('greenhouse')">🌱 الصوبة</button>
+            <button onclick="showTab('apothecary')">⚗️ المعمل</button>
+        </nav>
+    </header>
+
+    <main>
+        <section id="encyclopedia" class="tab-content active">
+            <h2>موسوعة الأعشاب</h2>
+            <div id="plants-grid" class="grid-layout"></div>
+        </section>
+
+        <section id="greenhouse" class="tab-content">
+            <h2>الصوبة الزجاجية - أحواض الزراعة</h2>
+            <div id="pots-container" class="grid-layout"></div>
+            <div class="inventory-section">
+                <h3>🎒 الحقيبة (المحاصيل والمستحضرات):</h3>
+                <ul id="inventory-list"></ul>
+            </div>
+        </section>
+
+        <section id="apothecary" class="tab-content">
+            <h2>⚗️ معمل المستحضرات</h2>
+            <p>ادرس الوصفات جيداً قبل الخلط، أي خطأ قد يؤدي إلى انفجار المرجل!</p>
+            <div id="recipes-grid" class="grid-layout"></div>
+        </section>
+    </main>
+
+    <script src="app.js"></script>
+</body>
+</html>
