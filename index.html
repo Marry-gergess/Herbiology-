@@ -1,43 +1,49 @@
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>هوجوورتس - قسم علم النباتات</title>
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
-    <header>
-        <h1>🌿 صوبة هوجوورتس للنباتات السحرية</h1>
-        <nav>
-            <button onclick="showTab('encyclopedia')">📚 الموسوعة</button>
-            <button onclick="showTab('greenhouse')">🌱 الصوبة</button>
-            <button onclick="showTab('apothecary')">⚗️ المعمل</button>
-        </nav>
-    </header>
+<!-- الكتيب السحري المطور -->
+<div id="booklet-modal" class="modal">
+    <div class="modal-content" style="max-width: 800px;">
+        <span class="close-btn" onclick="closeBooklet()">&times;</span>
+        <h2 style="text-align: center; color: #1a472a; font-family: Tahoma;">📖 منهج علم النباتات والمستحضرات</h2>
+        
+        <!-- أزرار الفصول -->
+        <div class="book-tabs">
+            <button class="book-tab-btn active" onclick="openChapter(event, 'intro')">مقدمة المستحضرات</button>
+            <button class="book-tab-btn" onclick="openChapter(event, 'safety')">السلامة والسموم</button>
+            <button class="book-tab-btn" onclick="openChapter(event, 'dangerous')">النباتات القاتلة</button>
+            <button class="book-tab-btn" onclick="openChapter(event, 'moving')">النباتات الحركية</button>
+        </div>
 
-    <main>
-        <section id="encyclopedia" class="tab-content active">
-            <h2>موسوعة الأعشاب</h2>
-            <div id="plants-grid" class="grid-layout"></div>
-        </section>
+        <hr style="border-color: #d4af37;">
 
-        <section id="greenhouse" class="tab-content">
-            <h2>الصوبة الزجاجية - أحواض الزراعة</h2>
-            <div id="pots-container" class="grid-layout"></div>
-            <div class="inventory-section">
-                <h3>🎒 الحقيبة (المحاصيل والمستحضرات):</h3>
-                <ul id="inventory-list"></ul>
-            </div>
-        </section>
+        <!-- محتوى الفصول -->
+        <div id="intro" class="chapter-content" style="display: block;">
+            <h3 style="color: #8b0000;">⚗️ أنواع المستحضرات العشبية</h3>
+            <p><strong>المغليات (Decoctions):</strong> تُستخدم مع الأجزاء الصلبة كالجذور، تُغلى لساعات وتُصفى.</p>
+            <p><strong>الإكسيرات (Elixirs):</strong> سائل صافٍ وحلو المذاق، يعتمد تقليدياً على قاعدة كحولية كمادة حافظة.</p>
+            <p><strong>المراهم (Ointments):</strong> مستخلصات تُمزج بالزيوت والشموع وتُوضع على الجلد.</p>
+        </div>
 
-        <section id="apothecary" class="tab-content">
-            <h2>⚗️ معمل المستحضرات</h2>
-            <p>ادرس الوصفات جيداً قبل الخلط، أي خطأ قد يؤدي إلى انفجار المرجل!</p>
-            <div id="recipes-grid" class="grid-layout"></div>
-        </section>
-    </main>
+        <div id="safety" class="chapter-content" style="display: none;">
+            <h3 style="color: #8b0000;">🛡️ معدات السلامة</h3>
+            <p>لا تتعامل مع النباتات السامة بدون توفير الترياق المناسب، مثل <strong>ترياق السموم الشائعة</strong>.</p>
+            <p>في حالات الطوارئ، استخدم الجرعات المخصصة مثل: جرعة تنظيم ضربات القلب، وإكسير الأدرينالين.</p>
+        </div>
 
-    <script src="app.js"></script>
-</body>
-</html>
+        <div id="dangerous" class="chapter-content" style="display: none;">
+            <h3 style="color: #8b0000;">☠️ النباتات شديدة السمية (WHIPS)</h3>
+            <ul>
+                <li><strong>بلادونا (C-4):</strong> تسبب هلوسة وشلل. <em>الترياق: حمض الأتروبا.</em></li>
+                <li><strong>الشوكران (C-3):</strong> يسبب شلل الأطراف والاختناق. <em>الترياق: جرعة مضادة للشلل.</em></li>
+                <li><strong>الأكونيت (زهر الذئب):</strong> شديد السمية عند اللمس، يُستخدم في جرعات Wolfsbane بحذر شديد.</li>
+            </ul>
+        </div>
+
+        <div id="moving" class="chapter-content" style="display: none;">
+            <h3 style="color: #8b0000;">🏃 النباتات الحركية والواعية</h3>
+            <ul>
+                <li><strong>الماندريك:</strong> جذوره تشبه الإنسان، صرخته مميتة. <em>تحذير: ارتدِ سدادات الأذن!</em></li>
+                <li><strong>الكرمة الشيطانية:</strong> تقيد الحركة وتخشى الضوء. <em>استخدم تعويذة Incendio للنجاة.</em></li>
+                <li><strong>البصلة القافزة:</strong> نبات واعٍ عدواني، استخدم تعويذة الدفع للسيطرة عليها.</li>
+            </ul>
+        </div>
+    </div>
+</div>
