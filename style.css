@@ -200,3 +200,51 @@ body {
     0% { transform: scale(0.95); opacity: 0.7; }
     100% { transform: scale(1.05); opacity: 1; }
 }
+
+
+
+
+/* ================= مرحلة التوصيل ================= */
+.matching-container {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    margin-top: 20px;
+}
+.plants-col, .characteristics-col {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    width: 48%;
+}
+.match-item {
+    background: rgba(184, 151, 88, 0.2);
+    border: 2px solid var(--accent);
+    padding: 15px;
+    border-radius: 8px;
+    cursor: grab;
+    font-weight: bold;
+    font-size: 1.1rem;
+    text-align: center;
+    transition: 0.3s;
+}
+.match-item:active { cursor: grabbing; }
+.match-item:hover { background: var(--accent); color: var(--bg-dark); }
+
+.match-dropzone {
+    background: rgba(0, 0, 0, 0.5);
+    border: 2px dashed var(--accent);
+    padding: 15px;
+    border-radius: 8px;
+    min-height: 25px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 1rem;
+    line-height: 1.4;
+}
+.match-dropzone.correct {
+    border-color: var(--success);
+    background: rgba(16, 185, 129, 0.2);
+    color: var(--success);
+}
