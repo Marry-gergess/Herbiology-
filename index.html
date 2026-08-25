@@ -15,17 +15,16 @@
             <h2>استعد جيداً! اجمع أغراضك التي تظن أنك ستحتاجها</h2>
             <div class="prep-area">
                 <div class="items-grid">
-                    <div class="draggable" draggable="true" data-type="trap">مرجل الوصفات</div>
-                    <div class="draggable" draggable="true" data-type="correct">مجرفة</div>
-                    <div class="draggable" draggable="true" data-type="trap">بيوتر الوصفات</div>
-                    <div class="draggable" draggable="true" data-type="correct">حذاء مغلق</div>
-                    <div class="draggable" draggable="true" data-type="correct">قفاز جلد تنين</div>
-                    <div class="draggable" draggable="true" data-type="correct">نظارة حماية</div>
-                    <div class="draggable" draggable="true" data-type="correct">سدادات أذن</div>
-                    <div class="draggable" draggable="true" data-type="correct">عصا سحرية</div>
+                    <img src="images/trap-cauldron.png" class="draggable" draggable="true" data-type="trap" alt="مرجل الوصفات" title="مرجل الوصفات">
+                    <img src="images/tool-spade.png" class="draggable" draggable="true" data-type="correct" alt="مجرفة" title="مجرفة">
+                    <img src="images/trap-pewter.png" class="draggable" draggable="true" data-type="trap" alt="بيوتر" title="بيوتر">
+                    <img src="images/gear-shoes.png" class="draggable" draggable="true" data-type="correct" alt="حذاء مغلق" title="حذاء مغلق">
+                    <img src="images/gear-gloves.png" class="draggable" draggable="true" data-type="correct" alt="قفاز جلد تنين" title="قفاز جلد تنين">
+                    <img src="images/gear-goggles.png" class="draggable" draggable="true" data-type="correct" alt="نظارة حماية" title="نظارة حماية">
+                    <img src="images/gear-earmuffs.png" class="draggable" draggable="true" data-type="correct" alt="سدادات أذن" title="سدادات أذن">
+                    <img src="images/gear-wand.png" class="draggable" draggable="true" data-type="correct" alt="عصا سحرية" title="عصا سحرية">
                 </div>
                 <div id="wizard-dropzone" class="dropzone">
-                    <!-- حطي صورة الساحر الفاضية هنا -->
                     <img src="images/wizard-empty.png" alt="ساحر يفكر" id="wizard-img" onerror="this.style.display='none'">
                     <p id="wizard-text">أسقط أدواتك هنا</p>
                 </div>
@@ -44,14 +43,28 @@
             <h2>الدفيئة الزجاجية: زراعة الناردين</h2>
             <div class="greenhouse-ui">
                 <div class="tools-panel">
-                    <div class="draggable-tool" draggable="true" id="tool-spade">مجرفة</div>
-                    <div class="draggable-tool" draggable="true" id="tool-seed">بذرة الناردين</div>
-                    <div class="draggable-tool" draggable="true" id="tool-water">رشاش ري</div>
-                    <div class="draggable-tool" draggable="true" id="tool-dung">روث تنين (سماد)</div>
+                    <img src="images/tool-spade.png" class="draggable-tool" draggable="true" id="tool-spade" alt="مجرفة" title="مجرفة">
+                    <img src="images/tool-seed.png" class="draggable-tool" draggable="true" id="tool-seed" alt="بذرة الناردين" title="بذرة الناردين">
+                    <img src="images/tool-water.png" class="draggable-tool" draggable="true" id="tool-water" alt="رشاش ري" title="رشاش ري">
+                    <img src="images/tool-dung.png" class="draggable-tool" draggable="true" id="tool-dung" alt="روث تنين (سماد)" title="روث تنين (سماد)">
                 </div>
                 <div id="pot-dropzone" class="pot">
                     <img src="images/pot-empty.png" id="plant-visual" alt="أصيص" onerror="this.style.display='none'">
                     <p id="pot-text">أصيص فارغ</p>
+                </div>
+            </div>
+            <button id="btn-next-harvest" class="btn hidden">حصاد النبتة</button>
+        </section>
+
+        <!-- المرحلة 3.5: الحصاد بتعويذة ديفيندو -->
+        <section id="phase-harvest" class="screen hidden">
+            <h2>حان وقت الحصاد!</h2>
+            <div class="boss-arena">
+                <img src="images/plant-stage3.png" alt="نبتة الناردين" id="harvest-plant" style="height: 150px; margin-bottom: 20px;" onerror="this.style.display='none'">
+                <div id="harvest-gesture-area">
+                    <p>استخدم العصا السحرية لتعويذة <strong>ديفيندو</strong>! ارسم الحركة (لأعلى، ثم لأسفل، ثم لأعلى) لقطع النبتة.</p>
+                    <canvas id="harvest-canvas" width="300" height="300" style="background: rgba(0,0,0,0.7); border: 2px solid var(--accent); border-radius: 10px; cursor: crosshair; box-shadow: inset 0 0 20px #000;"></canvas>
+                    <p id="harvest-feedback" style="font-size: 1.5rem; font-weight: bold; height: 30px; margin-top: 10px;"></p>
                 </div>
             </div>
             <button id="btn-next-quiz" class="btn hidden">المرحلة التالية</button>
@@ -86,13 +99,13 @@
             <button id="btn-boss-fight" class="btn hidden">واجه الخطر!</button>
         </section>
 
-        <!-- المرحلة 6: الزعيم (النبتة المهاجمة) -->
+        <!-- المرحلة 6: مواجهة فخ الشيطان (Devil's Snare) -->
         <section id="phase-6" class="screen hidden">
-            <h2 class="alert">تحذير! النبتة تهاجم!</h2>
+            <h2 class="alert">تحذير! فخ الشيطان يهاجمك!</h2>
             <div class="boss-arena">
-                <img src="images/angry-plant.png" alt="نبتة مهاجمة" id="boss-plant" class="shake-animation" onerror="this.style.display='none'">
+                <img src="images/devils-snare.png" alt="فخ الشيطان" id="boss-plant" class="shake-animation" onerror="this.style.display='none'">
                 <div id="wand-gesture-area">
-                    <p>نفذ تعويذة القطع <strong>(ديفيندو)</strong>! ارسم حرف <strong>V</strong> بالعصا لإنقاذ نفسك!</p>
+                    <p style="font-size: 1.1rem; margin-bottom: 10px;">فخ الشيطان يكره النار والحرارة! نفذ تعويذة <strong>انسنديو (Incendio)</strong> واضرب بعصاك لأعلى لإشعال اللهب!</p>
                     <canvas id="spell-canvas" width="300" height="300"></canvas>
                     <p id="spell-feedback"></p>
                 </div>
