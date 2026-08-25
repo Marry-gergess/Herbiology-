@@ -1,6 +1,17 @@
 function showPhase(phaseId) {
-    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-    if(phaseId) document.getElementById(phaseId).classList.add('active');
+    // 1. إخفاء كل الشاشات
+    document.querySelectorAll('.screen').forEach(s => {
+        s.classList.remove('active');
+    });
+    
+    // 2. إظهار الشاشة المطلوبة وإزالة الإخفاء الإجباري من عليها
+    if(phaseId) {
+        let activeScreen = document.getElementById(phaseId);
+        if (activeScreen) {
+            activeScreen.classList.remove('hidden'); // السر كله في السطر ده
+            activeScreen.classList.add('active');
+        }
+    }
 }
 
 // ================= المرحلة 1: تجهيز الساحر =================
