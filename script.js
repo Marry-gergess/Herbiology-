@@ -1,15 +1,24 @@
 function showPhase(phaseId) {
-    // 1. إخفاء كل الشاشات
+    // 1. إجبار كل الشاشات على الاختفاء التام عبر CSS المباشر
     document.querySelectorAll('.screen').forEach(s => {
+        s.style.display = 'none';
         s.classList.remove('active');
+        s.classList.add('hidden');
     });
     
-    // 2. إظهار الشاشة المطلوبة وإزالة الإخفاء الإجباري من عليها
+    // 2. إجبار الشاشة المطلوبة على الظهور
     if(phaseId) {
         let activeScreen = document.getElementById(phaseId);
         if (activeScreen) {
-            activeScreen.classList.remove('hidden'); // السر كله في السطر ده
-            activeScreen.classList.add('active');
+            activeScreen.classList.remove('hidden'); 
+            activeScreen.style.display = 'block'; // فرض الظهور الإجباري
+            
+            // تأخير بسيط جداً للسماح للمتصفح بتحديث الشاشة
+            setTimeout(() => {
+                activeScreen.classList.add('active');
+            }, 50);
+        } else {
+            alert("خطأ: المرحلة " + phaseId + " غير موجودة في ملف HTML!");
         }
     }
 }
@@ -46,26 +55,10 @@ dropzone.addEventListener('drop', e => {
     }
 });
 
-// ================= المرحلة 2: انتقال الباب =================
+// ================= المرحلة 2: انتقال مباشر للدفيئة =================
 document.getElementById('btn-enter-greenhouse').addEventListener('click', () => {
-    // 1. إخفاء الشاشة الحالية
-    showPhase(''); 
-    
-    // 2. البحث عن كود الباب
-    const doors = document.getElementById('door-transition');
-    
-    if (doors) {
-        // لو الباب موجود، هنشغل الأنيميشن
-        doors.classList.remove('hidden');
-        setTimeout(() => doors.classList.add('door-open'), 100);
-        setTimeout(() => {
-            doors.classList.add('hidden');
-            showPhase('phase-3'); // إظهار الدفيئة
-        }, 2000);
-    } else {
-        // لو كود الباب مش موجود في الـ HTML، يدخلك على الدفيئة فوراً بدون مشاكل
-        showPhase('phase-3');
-    }
+    // النقل الفوري للمرحلة الثالثة (الزراعة) بدون انتظار لتجنب أي أعطال
+    showPhase('phase-3');
 });
 
 
@@ -111,7 +104,7 @@ pot.addEventListener('drop', e => {
     }
 });
 
-// ================= المرحلة 3.5: حصاد דيفيندو =================
+// ================= المرحلة 3.5: حصاد ديفيندو =================
 document.getElementById('btn-next-harvest').addEventListener('click', () => {
     showPhase('phase-harvest');
 });
