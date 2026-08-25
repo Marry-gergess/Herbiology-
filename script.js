@@ -35,18 +35,28 @@ dropzone.addEventListener('drop', e => {
     }
 });
 
-// ================= المرحلة 2: الباب =================
+// ================= المرحلة 2: انتقال الباب =================
 document.getElementById('btn-enter-greenhouse').addEventListener('click', () => {
+    // 1. إخفاء الشاشة الحالية
     showPhase(''); 
-    const doors = document.getElementById('door-transition');
-    doors.classList.remove('hidden');
     
-    setTimeout(() => doors.classList.add('door-open'), 100);
-    setTimeout(() => {
-        doors.classList.add('hidden');
+    // 2. البحث عن كود الباب
+    const doors = document.getElementById('door-transition');
+    
+    if (doors) {
+        // لو الباب موجود، هنشغل الأنيميشن
+        doors.classList.remove('hidden');
+        setTimeout(() => doors.classList.add('door-open'), 100);
+        setTimeout(() => {
+            doors.classList.add('hidden');
+            showPhase('phase-3'); // إظهار الدفيئة
+        }, 2000);
+    } else {
+        // لو كود الباب مش موجود في الـ HTML، يدخلك على الدفيئة فوراً بدون مشاكل
         showPhase('phase-3');
-    }, 2000);
+    }
 });
+
 
 // ================= المرحلة 3: الزراعة =================
 const expectedSequence = ['tool-spade', 'tool-seed', 'tool-water', 'tool-dung'];
