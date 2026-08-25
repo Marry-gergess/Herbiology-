@@ -103,7 +103,26 @@
             </div>
             <button id="btn-boss-fight" class="btn hidden">واجه الخطر!</button>
         </section>
-
+<!-- المرحلة 5.5: توصيل النباتات بخصائصها -->
+        <section id="phase-matching" class="screen hidden">
+            <h2>اختبر ذاكرتك: صِل النبتة بخصائصها!</h2>
+            <p style="margin-bottom: 20px;">اسحب اسم النبتة وضعه في المربع الذي يصف خصائصها.</p>
+            <div class="matching-container">
+                <div class="plants-col" id="plants-col">
+                    <div class="match-item draggable-plant" draggable="true" data-match="valerian">الناردين</div>
+                    <div class="match-item draggable-plant" draggable="true" data-match="knotgrass">عشبة العقدة</div>
+                    <div class="match-item draggable-plant" draggable="true" data-match="asphodel">الأسفوديل</div>
+                    <div class="match-item draggable-plant" draggable="true" data-match="nettle">نبات القراص</div>
+                </div>
+                <div class="characteristics-col">
+                    <div class="match-dropzone" data-match="knotgrass">تُستخدم في جرعة التحول (بوليجويس)</div>
+                    <div class="match-dropzone" data-match="nettle">أوراقها مغطاة بشعيرات لاسعة تسبب التهيج</div>
+                    <div class="match-dropzone" data-match="valerian">تجذب القطط وتدخل في الجرعات المهدئة</div>
+                    <div class="match-dropzone" data-match="asphodel">جذورها أساسية في جرعة الموت الحي</div>
+                </div>
+            </div>
+            <button id="btn-enter-boss" class="btn hidden">مواجهة فخ الشيطان!</button>
+        </section>
         <!-- المرحلة 6: مواجهة فخ الشيطان (Devil's Snare) -->
         <section id="phase-6" class="screen hidden">
             <h2 class="alert">تحذير! فخ الشيطان يهاجمك!</h2>
