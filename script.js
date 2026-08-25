@@ -212,6 +212,7 @@ function checkAnswer(index) {
 }
 
 // ================= المرحلة 5: البازل =================
+// ================= المرحلة 5: البازل =================
 const piecesContainer = document.getElementById('puzzle-pieces');
 let pieces = [1, 2, 3, 4, 5, 6, 7, 8, 9].sort(() => Math.random() - 0.5);
 
@@ -220,7 +221,8 @@ pieces.forEach(num => {
     div.className = 'puzzle-piece';
     div.draggable = true;
     div.dataset.id = num;
-    div.style.backgroundImage = `url('images/puzzle_${num}.jpg')`; 
+    // تم تغيير الامتداد هنا لـ png
+    div.style.backgroundImage = `url('images/puzzle_${num}.png')`; 
     div.addEventListener('dragstart', e => e.dataTransfer.setData('id', num));
     piecesContainer.appendChild(div);
 });
@@ -248,6 +250,9 @@ document.querySelectorAll('.puzzle-slot').forEach(slot => {
         }
     });
 });
+
+// الانتقال من البازل إلى مرحلة التوصيل
+document.getElementById('btn-boss-fight').addEventListener('click', () => showPhase('phase-matching'));
 
 // الانتقال من البازل إلى مرحلة التوصيل
 document.getElementById('btn-boss-fight').addEventListener('click', () => showPhase('phase-matching'));
