@@ -57,7 +57,7 @@ dropzone.addEventListener('drop', e => {
 
 // ================= المرحلة 2: انتقال مباشر للدفيئة =================
 document.getElementById('btn-enter-greenhouse').addEventListener('click', () => {
-    // النقل الفوري للمرحلة الثالثة (الزراعة) بدون انتظار لتجنب أي أعطال
+    // النقل الفوري للمرحلة الثالثة (الزراعة) لتجنب أي أعطال
     showPhase('phase-3');
 });
 
@@ -249,7 +249,56 @@ document.querySelectorAll('.puzzle-slot').forEach(slot => {
     });
 });
 
-document.getElementById('btn-boss-fight').addEventListener('click', () => showPhase('phase-6'));
+// الانتقال من البازل إلى مرحلة التوصيل
+document.getElementById('btn-boss-fight').addEventListener('click', () => showPhase('phase-matching'));
+
+// ================= المرحلة 5.5: التوصيل =================
+let correctMatches = 0;
+const draggablePlants = document.querySelectorAll('.draggable-plant');
+const matchDropzones = document.querySelectorAll('.match-dropzone');
+
+draggablePlants.forEach(plant => {
+    plant.addEventListener('dragstart', e => {
+        e.dataTransfer.setData('match', plant.getAttribute('data-match'));
+        plant.classList.add('dragging-match');
+    });
+    plant.addEventListener('dragend', () => plant.classList.remove('dragging-match'));
+});
+
+matchDropzones.forEach(zone => {
+    zone.addEventListener('dragover', e => e.preventDefault());
+    zone.addEventListener('drop', e => {
+        e.preventDefault();
+        const draggedMatch = e.dataTransfer.getData('match');
+        const zoneMatch = zone.getAttribute('data-match');
+        
+        if (draggedMatch === zoneMatch) {
+            const draggedEl = document.querySelector('.dragging-match');
+            zone.appendChild(draggedEl); // نقل الكلمة للمربع
+            draggedEl.draggable = false; // منع سحبها تاني
+            
+            // تظبيط شكلها جوه المربع
+            draggedEl.style.border = "none";
+            draggedEl.style.background = "none";
+            draggedEl.style.padding = "0";
+            draggedEl.style.color = "var(--accent-hover)";
+            
+            zone.classList.add('correct');
+            correctMatches++;
+            
+            // لو خلص الـ 4 صح، يظهر زرار الزعيم
+            if (correctMatches === 4) {
+                document.getElementById('btn-enter-boss').classList.remove('hidden');
+            }
+        } else {
+            alert("إجابة خاطئة! هذه الخاصية لا تنتمي لهذه النبتة.");
+        }
+    });
+});
+
+// الانتقال من مرحلة التوصيل إلى الزعيم النهائي (فخ الشيطان)
+document.getElementById('btn-enter-boss').addEventListener('click', () => showPhase('phase-6'));
+
 
 // ================= المرحلة 6: فخ الشيطان (انسنديو) =================
 const bossCanvas = document.getElementById('spell-canvas');
