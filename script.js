@@ -3,7 +3,7 @@ function showPhase(phaseId) {
     if(phaseId) document.getElementById(phaseId).classList.add('active');
 }
 
-// ================= المرحلة 1 =================
+// ================= المرحلة 1: تجهيز الساحر =================
 let collectedCorrect = 0;
 const dropzone = document.getElementById('wizard-dropzone');
 
@@ -22,7 +22,7 @@ dropzone.addEventListener('drop', e => {
     const draggedEl = document.querySelector('.dragging');
     
     if (type === 'trap') {
-        alert("انتبه! هذه الأداة خاطئة. (المرجل والبيوتر مخصصين لجرعات أخرى)");
+        alert("انتبه! هذه الأداة ليست للنباتات.");
     } else if (type === 'correct') {
         draggedEl.style.display = 'none'; 
         collectedCorrect++;
@@ -35,7 +35,7 @@ dropzone.addEventListener('drop', e => {
     }
 });
 
-// ================= المرحلة 2 =================
+// ================= المرحلة 2: الباب =================
 document.getElementById('btn-enter-greenhouse').addEventListener('click', () => {
     showPhase(''); 
     const doors = document.getElementById('door-transition');
@@ -48,7 +48,7 @@ document.getElementById('btn-enter-greenhouse').addEventListener('click', () => 
     }, 2000);
 });
 
-// ================= المرحلة 3 =================
+// ================= المرحلة 3: الزراعة =================
 const expectedSequence = ['tool-spade', 'tool-seed', 'tool-water', 'tool-dung'];
 let currentPlantStep = 0;
 const pot = document.getElementById('pot-dropzone');
@@ -66,7 +66,7 @@ pot.addEventListener('drop', e => {
     
     if (toolId === expectedSequence[currentPlantStep]) {
         currentPlantStep++;
-        document.getElementById(toolId).style.display = 'none'; // اخفاء الأداة بعد استخدامها
+        document.getElementById(toolId).style.display = 'none';
         
         if (toolId === 'tool-spade') {
             potText.innerText = "تم تجهيز التربة";
@@ -82,7 +82,7 @@ pot.addEventListener('drop', e => {
             setTimeout(() => {
                 plantImg.src = 'images/plant-stage3.png';
                 potText.innerText = "النبتة مكتملة النمو!";
-                document.getElementById('btn-next-quiz').classList.remove('hidden');
+                document.getElementById('btn-next-harvest').classList.remove('hidden');
             }, 10000); 
         }
     } else {
@@ -90,7 +90,82 @@ pot.addEventListener('drop', e => {
     }
 });
 
-// ================= المرحلة 4 (الأسئلة) =================
+// ================= المرحلة 3.5: حصاد דيفيندو =================
+document.getElementById('btn-next-harvest').addEventListener('click', () => {
+    showPhase('phase-harvest');
+});
+
+const hCanvas = document.getElementById('harvest-canvas');
+const hCtx = hCanvas.getContext('2d');
+const hFeedback = document.getElementById('harvest-feedback');
+const hPlant = document.getElementById('harvest-plant');
+
+let hIsDrawing = false;
+let hPoints = [];
+
+hCtx.lineWidth = 8;
+hCtx.lineCap = 'round';
+hCtx.lineJoin = 'round';
+hCtx.strokeStyle = '#8bc34a'; 
+hCtx.shadowBlur = 15;
+hCtx.shadowColor = '#4caf50';
+
+function hStart(e) {
+    hIsDrawing = true; hPoints = [];
+    hCtx.clearRect(0, 0, hCanvas.width, hCanvas.height);
+    const pos = hGetPos(e); hPoints.push(pos);
+    hCtx.beginPath(); hCtx.moveTo(pos.x, pos.y);
+}
+function hDraw(e) {
+    if (!hIsDrawing) return; e.preventDefault();
+    const pos = hGetPos(e); hPoints.push(pos);
+    hCtx.lineTo(pos.x, pos.y); hCtx.stroke();
+}
+function hStop() { if (!hIsDrawing) return; hIsDrawing = false; hEvaluate(); }
+function hGetPos(e) {
+    const rect = hCanvas.getBoundingClientRect();
+    const cx = e.clientX || (e.touches && e.touches[0].clientX);
+    const cy = e.clientY || (e.touches && e.touches[0].clientY);
+    return { x: cx - rect.left, y: cy - rect.top };
+}
+
+hCanvas.addEventListener('mousedown', hStart); hCanvas.addEventListener('mousemove', hDraw);
+hCanvas.addEventListener('mouseup', hStop); hCanvas.addEventListener('mouseout', hStop);
+hCanvas.addEventListener('touchstart', hStart); hCanvas.addEventListener('touchmove', hDraw);
+hCanvas.addEventListener('touchend', hStop);
+
+function hEvaluate() {
+    if (hPoints.length < 10) { hFail("التعويذة غير مكتملة!"); return; }
+    
+    let minY = Math.min(...hPoints.map(p => p.y)); 
+    let maxY = Math.max(...hPoints.map(p => p.y)); 
+    let minIndex = hPoints.findIndex(p => p.y === minY);
+    let maxIndex = hPoints.findIndex(p => p.y === maxY);
+    
+    if (minIndex < maxIndex && maxIndex < hPoints.length - 2 && (maxY - minY) > 50) {
+        hSuccess();
+    } else {
+        hFail("حركة خاطئة! ارسم الزجزاج (ديفيندو).");
+    }
+}
+function hFail(msg) {
+    hFeedback.innerText = `❌ ${msg}`; hFeedback.style.color = 'var(--danger)';
+    setTimeout(() => { hCtx.clearRect(0, 0, hCanvas.width, hCanvas.height); hFeedback.innerText = ''; }, 2000);
+}
+function hSuccess() {
+    hFeedback.innerText = "✨ ديفيندو!! تم الحصاد بنجاح.";
+    hFeedback.style.color = 'var(--success)';
+    hPlant.style.transition = "transform 1s";
+    hPlant.style.transform = "translateY(50px) rotate(90deg)"; 
+    setTimeout(() => { document.getElementById('btn-next-quiz').classList.remove('hidden'); }, 1500);
+}
+
+// ================= المرحلة 4: الأسئلة =================
+document.getElementById('btn-next-quiz').addEventListener('click', () => {
+    showPhase('phase-4');
+    loadQuestion();
+});
+
 const questions = [
     { q: "أي الأحواض ممنوع استخدامه لخطورته وتفاعله مع الحرارة؟", options: ["الحوض الفضي", "حوض الذهب المزيف", "الحوض النحاسي الخالص"], answer: 1 },
     { q: "إذا بدأت أوراق النبتة بالذبول بعد الري المتكرر، ماذا يعني ذلك؟", options: ["تحتاج المزيد من الماء", "تحتاج إلى التعرض للشمس", "تحتاج إلى الراحة ولا مزيد من الماء"], answer: 2 },
@@ -98,14 +173,9 @@ const questions = [
 ];
 let currentQ = 0;
 
-document.getElementById('btn-next-quiz').addEventListener('click', () => {
-    showPhase('phase-4');
-    loadQuestion();
-});
-
 function loadQuestion() {
     if (currentQ >= questions.length) {
-        showPhase('phase-5'); // خلص الأسئلة، روح للبازل
+        showPhase('phase-5'); 
         return;
     }
     document.getElementById('question-text').innerText = questions[currentQ].q;
@@ -119,17 +189,15 @@ function loadQuestion() {
         container.appendChild(btn);
     });
 }
-
 function checkAnswer(index) {
     if (index === questions[currentQ].answer) {
-        currentQ++;
-        loadQuestion();
+        currentQ++; loadQuestion();
     } else {
         alert("إجابة خاطئة، ركز جيداً!");
     }
 }
 
-// ================= المرحلة 5 (البازل) =================
+// ================= المرحلة 5: البازل =================
 const piecesContainer = document.getElementById('puzzle-pieces');
 let pieces = [1, 2, 3, 4, 5, 6, 7, 8, 9].sort(() => Math.random() - 0.5);
 
@@ -138,10 +206,7 @@ pieces.forEach(num => {
     div.className = 'puzzle-piece';
     div.draggable = true;
     div.dataset.id = num;
-    // لما تجهزي الصور سميها puzzle_1.jpg لحد 9
     div.style.backgroundImage = `url('images/puzzle_${num}.jpg')`; 
-    div.innerText = num; // الرقم مكتوب للتسهيل، تقدري تمسحي السطر ده بعدين
-    
     div.addEventListener('dragstart', e => e.dataTransfer.setData('id', num));
     piecesContainer.appendChild(div);
 });
@@ -158,7 +223,7 @@ document.querySelectorAll('.puzzle-slot').forEach(slot => {
             const piece = document.querySelector(`.puzzle-piece[data-id="${draggedId}"]`);
             slot.appendChild(piece);
             piece.draggable = false;
-            piece.style.width = '100px'; // يكبر عشان يملى المربع
+            piece.style.width = '100px'; 
             piece.style.height = '100px';
             correctPieces++;
             if(correctPieces === 9) {
@@ -172,102 +237,76 @@ document.querySelectorAll('.puzzle-slot').forEach(slot => {
 
 document.getElementById('btn-boss-fight').addEventListener('click', () => showPhase('phase-6'));
 
-// ================= المرحلة 6 (رسم ديفيندو) =================
-const canvas = document.getElementById('spell-canvas');
-const ctx = canvas.getContext('2d');
-const feedbackText = document.getElementById('spell-feedback');
-const bossPlant = document.getElementById('boss-plant');
+// ================= المرحلة 6: فخ الشيطان (انسنديو) =================
+const bossCanvas = document.getElementById('spell-canvas');
+const bossCtx = bossCanvas.getContext('2d');
+const bossFeedback = document.getElementById('spell-feedback');
+const finalBossPlant = document.getElementById('boss-plant');
 
-let isDrawing = false;
-let points = [];
+let bIsDrawing = false;
+let bPoints = [];
 
-ctx.lineWidth = 8;
-ctx.lineCap = 'round';
-ctx.lineJoin = 'round';
-ctx.strokeStyle = '#b89758';
-ctx.shadowBlur = 15;
-ctx.shadowColor = '#d4af37';
+bossCtx.lineWidth = 8;
+bossCtx.lineCap = 'round';
+bossCtx.lineJoin = 'round';
+bossCtx.strokeStyle = '#ff9800'; // برتقالي ناري
+bossCtx.shadowBlur = 20;
+bossCtx.shadowColor = '#ff3d00'; 
 
-function startDrawing(e) {
-    isDrawing = true;
-    points = [];
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    const pos = getPos(e);
-    points.push(pos);
-    ctx.beginPath();
-    ctx.moveTo(pos.x, pos.y);
+function bStart(e) {
+    bIsDrawing = true; bPoints = [];
+    bossCtx.clearRect(0, 0, bossCanvas.width, bossCanvas.height);
+    const pos = bGetPos(e); bPoints.push(pos);
+    bossCtx.beginPath(); bossCtx.moveTo(pos.x, pos.y);
+}
+function bDraw(e) {
+    if (!bIsDrawing) return; e.preventDefault();
+    const pos = bGetPos(e); bPoints.push(pos);
+    bossCtx.lineTo(pos.x, pos.y); bossCtx.stroke();
+}
+function bStop() { if (!bIsDrawing) return; bIsDrawing = false; bEvaluate(); }
+function bGetPos(e) {
+    const rect = bossCanvas.getBoundingClientRect();
+    const cx = e.clientX || (e.touches && e.touches[0].clientX);
+    const cy = e.clientY || (e.touches && e.touches[0].clientY);
+    return { x: cx - rect.left, y: cy - rect.top };
 }
 
-function draw(e) {
-    if (!isDrawing) return;
-    e.preventDefault();
-    const pos = getPos(e);
-    points.push(pos);
-    ctx.lineTo(pos.x, pos.y);
-    ctx.stroke();
-}
+bossCanvas.addEventListener('mousedown', bStart); bossCanvas.addEventListener('mousemove', bDraw);
+bossCanvas.addEventListener('mouseup', bStop); bossCanvas.addEventListener('mouseout', bStop);
+bossCanvas.addEventListener('touchstart', bStart); bossCanvas.addEventListener('touchmove', bDraw);
+bossCanvas.addEventListener('touchend', bStop);
 
-function stopDrawing() {
-    if (!isDrawing) return;
-    isDrawing = false;
-    evaluateSpell();
-}
+function bEvaluate() {
+    if (bPoints.length < 10) { bFail("التعويذة غير مكتملة!"); return; }
 
-function getPos(e) {
-    const rect = canvas.getBoundingClientRect();
-    const clientX = e.clientX || (e.touches && e.touches[0].clientX);
-    const clientY = e.clientY || (e.touches && e.touches[0].clientY);
-    return { x: clientX - rect.left, y: clientY - rect.top };
-}
+    const startPt = bPoints[0];
+    const endPt = bPoints[bPoints.length - 1];
+    let lowestY = Math.max(...bPoints.map(p => p.y));
+    let highestY = Math.min(...bPoints.map(p => p.y));
+    let totalHeight = lowestY - highestY;
 
-canvas.addEventListener('mousedown', startDrawing);
-canvas.addEventListener('mousemove', draw);
-canvas.addEventListener('mouseup', stopDrawing);
-canvas.addEventListener('mouseout', stopDrawing);
-canvas.addEventListener('touchstart', startDrawing);
-canvas.addEventListener('touchmove', draw);
-canvas.addEventListener('touchend', stopDrawing);
-
-function evaluateSpell() {
-    if (points.length < 15) {
-        failSpell("التعويذة ضعيفة جداً! ارسم بشكل أوضح.");
-        return;
-    }
-    let highestY = Math.min(...points.map(p => p.y)); 
-    let lowestY = Math.max(...points.map(p => p.y)); 
-    const startPt = points[0];
-    const endPt = points[points.length - 1];
-    
-    let bottomY = points[0].y;
-    let bottomIndex = 0;
-    for (let i = 1; i < points.length; i++) {
-        if (points[i].y > bottomY) {
-            bottomY = points[i].y;
-            bottomIndex = i;
-        }
-    }
-    const startDiff = bottomY - startPt.y;
-    const endDiff = bottomY - endPt.y;
-    const totalHeight = lowestY - highestY;
-
-    if (startDiff > totalHeight * 0.4 && endDiff > totalHeight * 0.4 && bottomIndex > points.length * 0.1 && bottomIndex < points.length * 0.9) {
-        successSpell();
+    // حركة انسنديو (تصاعدية لأعلى كشعلة اللهب)
+    if (startPt.y > highestY && endPt.y < lowestY && totalHeight > 60) {
+        bSuccess();
     } else {
-        failSpell("حركة العصا خاطئة! ارسم حرف V.");
+        bFail("ارفع عصاك للأعلى بحركة سريعة كاللهب (انسنديو).");
     }
 }
 
-function failSpell(msg) {
-    feedbackText.innerText = `❌ ${msg}`;
-    feedbackText.style.color = 'var(--danger)';
-    setTimeout(() => { ctx.clearRect(0, 0, canvas.width, canvas.height); feedbackText.innerText = ''; }, 2000);
+function bFail(msg) {
+    bossFeedback.innerText = `❌ ${msg}`; bossFeedback.style.color = 'var(--danger)';
+    setTimeout(() => { bossCtx.clearRect(0, 0, bossCanvas.width, bossCanvas.height); bossFeedback.innerText = ''; }, 2500);
 }
 
-function successSpell() {
-    feedbackText.innerText = "✨ ديفيندو!! تم قطع النبتة بنجاح!";
-    feedbackText.style.color = 'var(--success)';
-    bossPlant.style.transition = "all 1s ease";
-    bossPlant.style.transform = "scale(0) rotate(180deg)";
-    bossPlant.style.opacity = "0";
-    setTimeout(() => { alert("🎉 لقد نجوت من الدفيئة السحرية! أحسنت."); }, 1500);
+function bSuccess() {
+    bossFeedback.innerText = "🔥 انسنديو!! احترق فخ الشيطان!";
+    bossFeedback.style.color = '#ff9800';
+    
+    finalBossPlant.classList.remove('shake-animation');
+    finalBossPlant.classList.add('fire-burn');
+    
+    setTimeout(() => { 
+        alert("🎉 مبروك! لقد تغلبت على فخ الشيطان وأكملت الدفيئة بنجاح باهر!"); 
+    }, 1500);
 }
