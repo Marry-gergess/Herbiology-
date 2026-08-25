@@ -145,3 +145,58 @@ body {
     opacity: 0 !important;
     transition: all 1.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
 }
+
+/* ================= مؤثرات النباتات الحية في الخلفية ================= */
+.ambient-plants {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    pointer-events: none; /* مهم جداً عشان الماوس ميضغطش عليها ويعطل اللعبة */
+    z-index: 50; /* يخليها فوق الخلفية بس تحت الشاشات الأساسية */
+    overflow: hidden;
+}
+
+/* النباتات المتسلقة من السقف */
+.creeping-vine {
+    position: absolute;
+    top: -20px;
+    width: 250px;
+    filter: brightness(0.6) drop-shadow(0 10px 15px rgba(0,0,0,0.8)); /* يديها شكل غامق ومرعب */
+    transform-origin: top center; /* عشان تتمرجح من فوق */
+    animation: sway 6s ease-in-out infinite alternate;
+}
+
+.vine-left {
+    left: -30px;
+    animation-duration: 7s; /* سرعة مختلفة عشان يبان طبيعي */
+}
+
+.vine-right {
+    right: -30px;
+    animation-duration: 5s;
+    animation-delay: 2s;
+}
+
+/* فطر أو نبتة بتتنفس على الأرض */
+.breathing-plant {
+    position: absolute;
+    bottom: -30px;
+    right: 15%;
+    width: 180px;
+    filter: brightness(0.7) hue-rotate(20deg);
+    transform-origin: bottom center;
+    animation: breathe 4s ease-in-out infinite alternate;
+}
+
+/* --- الأنيميشن (الحركة) --- */
+@keyframes sway {
+    0% { transform: rotate(-5deg); }
+    100% { transform: rotate(5deg); }
+}
+
+@keyframes breathe {
+    0% { transform: scale(0.95); opacity: 0.7; }
+    100% { transform: scale(1.05); opacity: 1; }
+}
