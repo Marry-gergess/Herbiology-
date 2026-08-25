@@ -3,378 +3,104 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>أسرار علم النباتات</title>
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-    <style>
-        :root {
-            --dark-bg: #0a0f0d;
-            --glass-bg: rgba(15, 25, 20, 0.7);
-            --accent: #8b9c7b;
-            --accent-glow: rgba(139, 156, 123, 0.5);
-            --text-main: #e0e6dd;
-            --danger: #7a3b3b;
-        }
-
-        body {
-            font-family: 'Cairo', sans-serif;
-            background-color: var(--dark-bg);
-            /* صورة خلفية احترافية، يمكنك استبدالها برندر 3D من تصميمك */
-            background-image: url('https://images.unsplash.com/photo-1542273917363-3b1817f69a5d?q=80&w=2070&auto=format&fit=crop');
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
-            color: var(--text-main);
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            overflow: hidden;
-        }
-
-        /* Overlay for dark moody atmosphere */
-        .overlay {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: radial-gradient(circle at center, rgba(10,15,13,0.4) 0%, rgba(10,15,13,0.9) 100%);
-            z-index: 1;
-            pointer-events: none;
-        }
-
-        h1, h2, h3, .mystic-font { font-family: 'Amiri', serif; }
-
-        /* Glassmorphism Container */
-        .glass-panel {
-            background: var(--glass-bg);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8);
-            z-index: 10;
-            position: relative;
-        }
-
-        /* Ambient glowing particles */
-        .dust-particle {
-            position: absolute;
-            background: var(--accent);
-            border-radius: 50%;
-            pointer-events: none;
-            animation: float-dust 10s infinite linear;
-            opacity: 0.3;
-        }
-
-        @keyframes float-dust {
-            0% { transform: translateY(0) translateX(0); opacity: 0; }
-            50% { opacity: 0.6; }
-            100% { transform: translateY(-100px) translateX(20px); opacity: 0; }
-        }
-
-        /* Buttons & Interactions */
-        .btn-mystic {
-            background: transparent;
-            color: var(--text-main);
-            font-family: 'Amiri', serif;
-            font-size: 1.25rem;
-            border: 1px solid var(--accent);
-            padding: 0.75rem 2.5rem;
-            border-radius: 4px;
-            transition: all 0.4s ease;
-            position: relative;
-            overflow: hidden;
-            letter-spacing: 1px;
-        }
-
-        .btn-mystic:hover {
-            background: var(--accent);
-            color: var(--dark-bg);
-            box-shadow: 0 0 20px var(--accent-glow);
-        }
-
-        /* Puzzle Cards */
-        .puzzle-item {
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            transition: all 0.3s;
-            cursor: pointer;
-        }
-        
-        .puzzle-item:hover {
-            border-color: var(--accent);
-            background: rgba(255, 255, 255, 0.08);
-        }
-
-        .selected {
-            border-color: var(--accent) !important;
-            box-shadow: 0 0 15px var(--accent-glow) inset;
-        }
-
-        .matched {
-            opacity: 0.5;
-            pointer-events: none;
-            border-color: #4a5c43 !important;
-            filter: grayscale(100%);
-        }
-
-        /* Quiz Options */
-        .quiz-option {
-            background: rgba(0,0,0,0.4);
-            border-right: 3px solid transparent;
-            transition: all 0.3s;
-        }
-        
-        .quiz-option:hover {
-            background: rgba(255,255,255,0.05);
-            border-right-color: var(--accent);
-        }
-
-        /* Transitions */
-        .fade-enter { opacity: 0; transform: translateY(10px); }
-        .fade-enter-active { opacity: 1; transform: translateY(0); transition: all 0.6s ease; }
-    </style>
+    <title>دفيئة الأسرار السحرية - تخيل</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <div class="overlay" id="particles-container"></div>
+    <div id="game-container">
 
-    <div id="app" class="glass-panel w-full max-w-4xl rounded-xl p-8 md:p-12 mx-4 fade-enter-active">
-        <!-- Content will be injected via JS -->
+        <!-- المرحلة 1: تجهيز الساحر -->
+        <section id="phase-1" class="screen active">
+            <h2>استعد جيداً! اجمع أغراضك التي تظن أنك ستحتاجها</h2>
+            <div class="prep-area">
+                <div class="items-grid">
+                    <div class="draggable" draggable="true" data-type="trap">مرجل الوصفات</div>
+                    <div class="draggable" draggable="true" data-type="correct">مجرفة</div>
+                    <div class="draggable" draggable="true" data-type="trap">بيوتر الوصفات</div>
+                    <div class="draggable" draggable="true" data-type="correct">حذاء مغلق</div>
+                    <div class="draggable" draggable="true" data-type="correct">قفاز جلد تنين</div>
+                    <div class="draggable" draggable="true" data-type="correct">نظارة حماية</div>
+                    <div class="draggable" draggable="true" data-type="correct">سدادات أذن</div>
+                    <div class="draggable" draggable="true" data-type="correct">عصا سحرية</div>
+                </div>
+                <div id="wizard-dropzone" class="dropzone">
+                    <!-- حطي صورة الساحر الفاضية هنا -->
+                    <img src="images/wizard-empty.png" alt="ساحر يفكر" id="wizard-img" onerror="this.style.display='none'">
+                    <p id="wizard-text">أسقط أدواتك هنا</p>
+                </div>
+            </div>
+            <button id="btn-enter-greenhouse" class="btn hidden">دخول الدفيئة</button>
+        </section>
+
+        <!-- المرحلة 2: انتقال الباب -->
+        <div id="door-transition" class="hidden">
+            <div class="door right-door"></div>
+            <div class="door left-door"></div>
+        </div>
+
+        <!-- المرحلة 3: الزراعة -->
+        <section id="phase-3" class="screen hidden">
+            <h2>الدفيئة الزجاجية: زراعة الناردين</h2>
+            <div class="greenhouse-ui">
+                <div class="tools-panel">
+                    <div class="draggable-tool" draggable="true" id="tool-spade">مجرفة</div>
+                    <div class="draggable-tool" draggable="true" id="tool-seed">بذرة الناردين</div>
+                    <div class="draggable-tool" draggable="true" id="tool-water">رشاش ري</div>
+                    <div class="draggable-tool" draggable="true" id="tool-dung">روث تنين (سماد)</div>
+                </div>
+                <div id="pot-dropzone" class="pot">
+                    <img src="images/pot-empty.png" id="plant-visual" alt="أصيص" onerror="this.style.display='none'">
+                    <p id="pot-text">أصيص فارغ</p>
+                </div>
+            </div>
+            <button id="btn-next-quiz" class="btn hidden">المرحلة التالية</button>
+        </section>
+
+        <!-- المرحلة 4: فاصل الأسئلة -->
+        <section id="phase-4" class="screen hidden">
+            <h2>اختبار سريع</h2>
+            <div id="quiz-container">
+                <h3 id="question-text"></h3>
+                <div id="answers-container" class="answers-grid"></div>
+            </div>
+        </section>
+
+        <!-- المرحلة 5: بازل المخطوطة (9 قطع) -->
+        <section id="phase-5" class="screen hidden">
+            <h2>أعد تجميع المخطوطة</h2>
+            <div class="puzzle-wrapper">
+                <div id="puzzle-pieces" class="pieces-container"></div>
+                <div id="puzzle-board" class="board-grid">
+                    <div class="puzzle-slot" data-slot="1"></div>
+                    <div class="puzzle-slot" data-slot="2"></div>
+                    <div class="puzzle-slot" data-slot="3"></div>
+                    <div class="puzzle-slot" data-slot="4"></div>
+                    <div class="puzzle-slot" data-slot="5"></div>
+                    <div class="puzzle-slot" data-slot="6"></div>
+                    <div class="puzzle-slot" data-slot="7"></div>
+                    <div class="puzzle-slot" data-slot="8"></div>
+                    <div class="puzzle-slot" data-slot="9"></div>
+                </div>
+            </div>
+            <button id="btn-boss-fight" class="btn hidden">واجه الخطر!</button>
+        </section>
+
+        <!-- المرحلة 6: الزعيم (النبتة المهاجمة) -->
+        <section id="phase-6" class="screen hidden">
+            <h2 class="alert">تحذير! النبتة تهاجم!</h2>
+            <div class="boss-arena">
+                <img src="images/angry-plant.png" alt="نبتة مهاجمة" id="boss-plant" class="shake-animation" onerror="this.style.display='none'">
+                <div id="wand-gesture-area">
+                    <p>نفذ تعويذة القطع <strong>(ديفيندو)</strong>! ارسم حرف <strong>V</strong> بالعصا لإنقاذ نفسك!</p>
+                    <canvas id="spell-canvas" width="300" height="300"></canvas>
+                    <p id="spell-feedback"></p>
+                </div>
+            </div>
+        </section>
+
     </div>
 
-    <script>
-        // Create ambient dust particles for atmosphere
-        const container = document.getElementById('particles-container');
-        for(let i=0; i<30; i++) {
-            let p = document.createElement('div');
-            p.className = 'dust-particle';
-            p.style.width = Math.random() * 3 + 'px';
-            p.style.height = p.style.width;
-            p.style.left = Math.random() * 100 + 'vw';
-            p.style.top = Math.random() * 100 + 'vh';
-            p.style.animationDelay = Math.random() * 5 + 's';
-            p.style.animationDuration = (Math.random() * 10 + 10) + 's';
-            container.appendChild(p);
-        }
-
-        // Game Data based on the provided text
-        const gameState = {
-            currentScreen: 'intro',
-            puzzleSelection: { source: null, target: null },
-            matchesFound: 0,
-            quizStep: 0
-        };
-
-        const puzzleData = [
-            { id: 'p1', name: 'الزنبق (Lily)', match: 't1' },
-            { id: 'p2', name: 'الأسفوديل (Asphodel)', match: 't2' },
-            { id: 'p3', name: 'عشبة العقدة (Knotgrass)', match: 't3' }
-        ];
-
-        const puzzleTargets = [
-            { id: 't1', desc: 'تنظيم ضربات القلب وعلاج الحروق' }, //
-            { id: 't2', desc: 'جرعة النوم العميق (Draught of the Living Death)' }, //
-            { id: 't3', desc: 'جرعة التحول (Polyjuice Potion)' } //[cite: 1]
-        ];
-
-        const quizData = [
-            {
-                q: 'أي الأحواض التالية ممنوع استخدامه تماماً لخطورته وتفاعله مع الحرارة والماء؟', //[cite: 1]
-                options: ['الحوض النحاسي الخالص', 'حوض الذهب المزيف (Pyrite)', 'الحوض الفضي'],
-                answer: 1 //[cite: 1]
-            },
-            {
-                q: 'إذا بدأت أوراق النبتة بالذبول بعد الري المتكرر، ماذا يعني ذلك؟', //[cite: 1]
-                options: ['تحتاج إلى زيادة كمية الماء فوراً', 'تحتاج إلى الراحة ولا مزيد من الماء', 'تحتاج إلى وضعها في الشمس المباشرة'],
-                answer: 1 //[cite: 1]
-            }
-        ];
-
-        const app = document.getElementById('app');
-
-        function renderScreen(screenType) {
-            app.classList.remove('fade-enter-active');
-            app.classList.add('fade-enter');
-            
-            setTimeout(() => {
-                app.innerHTML = '';
-                if (screenType === 'intro') renderIntro();
-                else if (screenType === 'puzzle') renderPuzzle();
-                else if (screenType === 'quiz') renderQuiz();
-                else if (screenType === 'end') renderEnd();
-                
-                app.classList.remove('fade-enter');
-                app.classList.add('fade-enter-active');
-            }, 300);
-        }
-
-        function renderIntro() {
-            app.innerHTML = `
-                <div class="text-center">
-                    <h1 class="text-4xl md:text-6xl mystic-font mb-6 tracking-wide">أسرار المملكة النباتية</h1>
-                    <div class="w-24 h-px bg-[var(--accent)] mx-auto mb-8"></div>
-                    <p class="text-lg md:text-xl leading-relaxed text-gray-300 mb-12 max-w-2xl mx-auto font-light">
-                        بعيداً عن الأروقة المضيئة، تخفي الطبيعة أسرارها بين الجذور والبتلات. هنا نختبر معرفتك الحقيقية بخصائص النباتات وخطورتها. خطأ واحد قد يكلفك الكثير.
-                    </p>
-                    <button onclick="renderScreen('puzzle')" class="btn-mystic">ابدأ الاختبار</button>
-                </div>
-            `;
-        }
-
-        // --- PUZZLE MECHANIC ---
-        function renderPuzzle() {
-            gameState.matchesFound = 0;
-            gameState.puzzleSelection = { source: null, target: null };
-            
-            // Shuffle arrays visually
-            const shuffledSources = [...puzzleData].sort(() => 0.5 - Math.random());
-            const shuffledTargets = [...puzzleTargets].sort(() => 0.5 - Math.random());
-
-            let html = `
-                <div class="text-center mb-10">
-                    <h2 class="text-3xl mystic-font mb-3">مخطوطة الخصائص (لغز التوصيل)</h2>
-                    <p class="text-sm text-gray-400">انقر على النبات، ثم انقر على الخاصية المطابقة له لربطهما.</p>
-                </div>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-16">
-                    <!-- Column 1: Plants -->
-                    <div class="flex flex-col gap-4" id="puzzle-sources">
-                        ${shuffledSources.map(p => `
-                            <div id="${p.id}" class="puzzle-item p-4 text-center rounded text-lg font-semibold" onclick="selectPuzzleItem('source', '${p.id}', '${p.match}')">
-                                ${p.name}
-                            </div>
-                        `).join('')}
-                    </div>
-                    <!-- Column 2: Properties -->
-                    <div class="flex flex-col gap-4" id="puzzle-targets">
-                        ${shuffledTargets.map(t => `
-                            <div id="${t.id}" class="puzzle-item p-4 text-center rounded text-sm md:text-base" onclick="selectPuzzleItem('target', '${t.id}', null)">
-                                ${t.desc}
-                            </div>
-                        `).join('')}
-                    </div>
-                </div>
-                <div id="puzzle-feedback" class="h-8 mt-6 text-center text-sm tracking-widest transition-opacity duration-300 opacity-0"></div>
-            `;
-            app.innerHTML = html;
-        }
-
-        function selectPuzzleItem(type, id, matchId) {
-            const el = document.getElementById(id);
-            if(el.classList.contains('matched')) return;
-
-            // Deselect previous in same column
-            document.querySelectorAll(`#puzzle-${type}s .puzzle-item`).forEach(item => item.classList.remove('selected'));
-            el.classList.add('selected');
-
-            gameState.puzzleSelection[type] = { id, matchId };
-
-            // Check if both selected
-            if(gameState.puzzleSelection.source && gameState.puzzleSelection.target) {
-                checkMatch();
-            }
-        }
-
-        function checkMatch() {
-            const { source, target } = gameState.puzzleSelection;
-            const feedback = document.getElementById('puzzle-feedback');
-
-            if(source.matchId === target.id) {
-                // Correct Match
-                document.getElementById(source.id).classList.add('matched', 'selected');
-                document.getElementById(target.id).classList.add('matched', 'selected');
-                feedback.innerText = "تطابق سحري صحيح.";
-                feedback.style.color = "var(--accent)";
-                feedback.style.opacity = 1;
-                gameState.matchesFound++;
-
-                if(gameState.matchesFound === puzzleData.length) {
-                    setTimeout(() => renderScreen('quiz'), 1500);
-                }
-            } else {
-                // Wrong Match
-                document.getElementById(source.id).classList.remove('selected');
-                document.getElementById(target.id).classList.remove('selected');
-                feedback.innerText = "تفاعل خاطئ.. احذر.";
-                feedback.style.color = "var(--danger)";
-                feedback.style.opacity = 1;
-            }
-
-            // Reset selection state
-            gameState.puzzleSelection = { source: null, target: null };
-            setTimeout(() => { if(gameState.matchesFound !== puzzleData.length) feedback.style.opacity = 0; }, 1500);
-        }
-
-        // --- QUIZ MECHANIC ---
-        function renderQuiz() {
-            if(gameState.quizStep >= quizData.length) {
-                renderScreen('end');
-                return;
-            }
-
-            const q = quizData[gameState.quizStep];
-            let html = `
-                <div class="mb-10 flex justify-between items-center text-sm text-gray-500">
-                    <span>اختبار المعرفة (${gameState.quizStep + 1} / ${quizData.length})</span>
-                </div>
-                <h2 class="text-2xl md:text-3xl mystic-font mb-8 leading-relaxed">${q.q}</h2>
-                <div class="flex flex-col gap-4">
-                    ${q.options.map((opt, index) => `
-                        <button class="quiz-option text-right p-4 rounded text-lg focus:outline-none" onclick="checkAnswer(${index}, ${q.answer}, this)">
-                            ${opt}
-                        </button>
-                    `).join('')}
-                </div>
-            `;
-            app.innerHTML = html;
-        }
-
-        function checkAnswer(selectedIndex, correctIndex, element) {
-            // Disable all buttons
-            document.querySelectorAll('.quiz-option').forEach(btn => {
-                btn.onclick = null;
-                btn.style.opacity = '0.5';
-            });
-            
-            element.style.opacity = '1';
-
-            if(selectedIndex === correctIndex) {
-                element.style.borderRightColor = 'var(--accent)';
-                element.style.backgroundColor = 'rgba(139, 156, 123, 0.1)';
-                setTimeout(() => {
-                    gameState.quizStep++;
-                    renderQuiz();
-                }, 1000);
-            } else {
-                element.style.borderRightColor = 'var(--danger)';
-                element.style.backgroundColor = 'rgba(122, 59, 59, 0.2)';
-                // Reset step on failure (Hardcore mode)
-                setTimeout(() => {
-                    gameState.quizStep = 0;
-                    renderScreen('puzzle'); // Sent back to start!
-                }, 1500);
-            }
-        }
-
-        // --- END SCREEN ---
-        function renderEnd() {
-            app.innerHTML = `
-                <div class="text-center">
-                    <i class="fa-solid fa-leaf text-4xl mb-6 text-[var(--accent)] opacity-80"></i>
-                    <h1 class="text-4xl mystic-font mb-6 text-[var(--accent)]">لقد أثبتّ جدارتك</h1>
-                    <p class="text-lg text-gray-400 max-w-xl mx-auto mb-10 leading-relaxed">
-                        معرفتك الدقيقة بعلم النباتات تميزك عن الهواة. أنت الآن جاهز للتعامل مع الجرعات المعقدة داخل أروقة العالم السحري.
-                    </p>
-                    <button onclick="gameState.quizStep = 0; renderScreen('intro')" class="btn-mystic text-sm">العودة للبداية</button>
-                </div>
-            `;
-        }
-
-        // Start App
-        window.onload = () => renderScreen('intro');
-
-    </script>
+    <script src="script.js"></script>
 </body>
 </html>
