@@ -3,383 +3,378 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>مغامرة علم النباتات السحرية</title>
+    <title>أسرار علم النباتات</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
-    <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
         :root {
-            --primary: #2c4a35;
-            --secondary: #b89758;
-            --bg-color: #1a2f23;
-            --card-bg: #f4e8d2;
+            --dark-bg: #0a0f0d;
+            --glass-bg: rgba(15, 25, 20, 0.7);
+            --accent: #8b9c7b;
+            --accent-glow: rgba(139, 156, 123, 0.5);
+            --text-main: #e0e6dd;
+            --danger: #7a3b3b;
         }
-        
+
         body {
             font-family: 'Cairo', sans-serif;
-            background-color: var(--bg-color);
-            background-image: radial-gradient(circle at center, #2c4a35 0%, #1a2f23 100%);
-            color: #e5e7eb;
+            background-color: var(--dark-bg);
+            /* صورة خلفية احترافية، يمكنك استبدالها برندر 3D من تصميمك */
+            background-image: url('https://images.unsplash.com/photo-1542273917363-3b1817f69a5d?q=80&w=2070&auto=format&fit=crop');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            color: var(--text-main);
             min-height: 100vh;
-            overflow-x: hidden;
-        }
-
-        h1, h2, h3, .magical-title { font-family: 'Amiri', serif; }
-
-        /* Card Styles */
-        .interactive-card {
-            background-color: var(--card-bg);
-            color: #2d3748;
-            border: 2px solid var(--secondary);
-            border-radius: 12px;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            cursor: pointer;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
-            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
             overflow: hidden;
         }
 
-        .interactive-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 15px rgba(212, 175, 55, 0.2);
-            border-color: #d4af37;
+        /* Overlay for dark moody atmosphere */
+        .overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(circle at center, rgba(10,15,13,0.4) 0%, rgba(10,15,13,0.9) 100%);
+            z-index: 1;
+            pointer-events: none;
         }
 
-        .card-selected {
-            border-color: #10b981 !important;
-            background-color: #d1fae5 !important;
-            transform: scale(0.98);
+        h1, h2, h3, .mystic-font { font-family: 'Amiri', serif; }
+
+        /* Glassmorphism Container */
+        .glass-panel {
+            background: var(--glass-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8);
+            z-index: 10;
+            position: relative;
         }
 
-        .card-wrong {
-            border-color: #ef4444 !important;
-            background-color: #fee2e2 !important;
-            animation: shake 0.5s;
+        /* Ambient glowing particles */
+        .dust-particle {
+            position: absolute;
+            background: var(--accent);
+            border-radius: 50%;
+            pointer-events: none;
+            animation: float-dust 10s infinite linear;
+            opacity: 0.3;
         }
 
-        /* Drag & Drop Styles */
-        .draggable-item {
-            cursor: grab;
-            user-select: none;
-            transition: transform 0.2s;
-        }
-        .draggable-item:active { cursor: grabbing; transform: scale(1.1); }
-        .draggable-item.used { opacity: 0.3; pointer-events: none; filter: grayscale(100%); }
-        
-        .pot-container {
-            border: 4px dashed #b89758;
-            background-color: rgba(0,0,0,0.2);
-            transition: all 0.3s;
-        }
-        .pot-container.drag-over {
-            background-color: rgba(184, 151, 88, 0.2);
-            border-color: #d4af37;
-            transform: scale(1.05);
-        }
-        
-        .plant-emoji {
-            font-size: 6rem;
-            line-height: 1;
-            transition: all 0.5s ease-in-out;
-            display: inline-block;
-        }
-        
-        .grow-animation {
-            animation: growUp 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        @keyframes float-dust {
+            0% { transform: translateY(0) translateX(0); opacity: 0; }
+            50% { opacity: 0.6; }
+            100% { transform: translateY(-100px) translateX(20px); opacity: 0; }
         }
 
-        @keyframes growUp {
-            0% { transform: scale(0.5) translateY(20px); opacity: 0; }
-            50% { transform: scale(1.2) translateY(-10px); }
-            100% { transform: scale(1) translateY(0); opacity: 1; }
-        }
-
-        @keyframes shake {
-            0%, 100% { transform: translateX(0); }
-            25% { transform: translateX(-5px); }
-            50% { transform: translateX(5px); }
-            75% { transform: translateX(-5px); }
-        }
-
-        .animate-fade-in { animation: fadeIn 0.6s ease-out forwards; }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .btn-magic {
-            background: linear-gradient(135deg, var(--secondary), #8a6e3c);
-            color: white;
+        /* Buttons & Interactions */
+        .btn-mystic {
+            background: transparent;
+            color: var(--text-main);
             font-family: 'Amiri', serif;
             font-size: 1.25rem;
-            border: 2px solid #fff;
-            padding: 0.75rem 2rem;
-            border-radius: 9999px;
+            border: 1px solid var(--accent);
+            padding: 0.75rem 2.5rem;
+            border-radius: 4px;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+            letter-spacing: 1px;
+        }
+
+        .btn-mystic:hover {
+            background: var(--accent);
+            color: var(--dark-bg);
+            box-shadow: 0 0 20px var(--accent-glow);
+        }
+
+        /* Puzzle Cards */
+        .puzzle-item {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+        
+        .puzzle-item:hover {
+            border-color: var(--accent);
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .selected {
+            border-color: var(--accent) !important;
+            box-shadow: 0 0 15px var(--accent-glow) inset;
+        }
+
+        .matched {
+            opacity: 0.5;
+            pointer-events: none;
+            border-color: #4a5c43 !important;
+            filter: grayscale(100%);
+        }
+
+        /* Quiz Options */
+        .quiz-option {
+            background: rgba(0,0,0,0.4);
+            border-right: 3px solid transparent;
             transition: all 0.3s;
         }
-        .btn-magic:hover:not(:disabled) {
-            background: linear-gradient(135deg, #8a6e3c, var(--secondary));
-            transform: scale(1.05);
+        
+        .quiz-option:hover {
+            background: rgba(255,255,255,0.05);
+            border-right-color: var(--accent);
         }
-        .btn-magic:disabled { opacity: 0.5; cursor: not-allowed; }
 
+        /* Transitions */
+        .fade-enter { opacity: 0; transform: translateY(10px); }
+        .fade-enter-active { opacity: 1; transform: translateY(0); transition: all 0.6s ease; }
     </style>
 </head>
-<body class="p-4 md:p-8 flex flex-col items-center">
+<body>
 
-    <div id="game-container" class="max-w-4xl w-full bg-black/40 backdrop-blur-md rounded-2xl p-6 md:p-10 border border-[#b89758] shadow-2xl relative z-10">
-        
-        <header class="text-center mb-10">
-            <h1 class="text-4xl md:text-5xl text-[#d4af37] mb-3 font-bold drop-shadow-md magical-title">
-                <i class="fa-solid fa-leaf mr-2"></i> مغامرة الدفيئة الزجاجية
-            </h1>
-            <p class="text-lg text-gray-300">تحت إشراف البروفيسور ميركل س. بوتر</p>
-            <div class="w-full bg-gray-700 rounded-full h-3 mt-6 hidden" id="progress-container">
-                <div id="progress-bar" class="bg-[#d4af37] h-3 rounded-full transition-all duration-500" style="width: 0%"></div>
-            </div>
-        </header>
+    <div class="overlay" id="particles-container"></div>
 
-        <div id="screen-content" class="min-h-[400px] flex flex-col justify-center">
-            <!-- سيتم حقن المحتوى هنا -->
-        </div>
-
+    <div id="app" class="glass-panel w-full max-w-4xl rounded-xl p-8 md:p-12 mx-4 fade-enter-active">
+        <!-- Content will be injected via JS -->
     </div>
 
     <script>
-        const gameStages = [
+        // Create ambient dust particles for atmosphere
+        const container = document.getElementById('particles-container');
+        for(let i=0; i<30; i++) {
+            let p = document.createElement('div');
+            p.className = 'dust-particle';
+            p.style.width = Math.random() * 3 + 'px';
+            p.style.height = p.style.width;
+            p.style.left = Math.random() * 100 + 'vw';
+            p.style.top = Math.random() * 100 + 'vh';
+            p.style.animationDelay = Math.random() * 5 + 's';
+            p.style.animationDuration = (Math.random() * 10 + 10) + 's';
+            container.appendChild(p);
+        }
+
+        // Game Data based on the provided text
+        const gameState = {
+            currentScreen: 'intro',
+            puzzleSelection: { source: null, target: null },
+            matchesFound: 0,
+            quizStep: 0
+        };
+
+        const puzzleData = [
+            { id: 'p1', name: 'الزنبق (Lily)', match: 't1' },
+            { id: 'p2', name: 'الأسفوديل (Asphodel)', match: 't2' },
+            { id: 'p3', name: 'عشبة العقدة (Knotgrass)', match: 't3' }
+        ];
+
+        const puzzleTargets = [
+            { id: 't1', desc: 'تنظيم ضربات القلب وعلاج الحروق' }, //
+            { id: 't2', desc: 'جرعة النوم العميق (Draught of the Living Death)' }, //
+            { id: 't3', desc: 'جرعة التحول (Polyjuice Potion)' } //[cite: 1]
+        ];
+
+        const quizData = [
             {
-                id: 0,
-                type: 'intro',
-                title: "أهلاً بك أيها الساحر المتدرب",
-                content: "اليوم لن نكتفي بقراءة الكتب المدرسية. لقد حان الوقت لدخول الدفيئة الزجاجية وتطبيق ما تعلمته في علم النباتات عملياً. هل أنت مستعد لاتخاذ القرارات الصحيحة وإنقاذ النباتات؟",
-                buttonText: "دخول الدفيئة 🚪"
+                q: 'أي الأحواض التالية ممنوع استخدامه تماماً لخطورته وتفاعله مع الحرارة والماء؟', //[cite: 1]
+                options: ['الحوض النحاسي الخالص', 'حوض الذهب المزيف (Pyrite)', 'الحوض الفضي'],
+                answer: 1 //[cite: 1]
             },
             {
-                id: 1,
-                type: 'drag-grow',
-                title: "المهمة العملية: زراعة روز كارولين",
-                content: "أمامك أصيص يحتوي على جذور وردة في حالة سكون. اسحب الأدوات بالترتيب الصحيح فوق الأصيص لتنمو الوردة! <br><span class='text-[#d4af37] text-sm'>تلميح: السماد لإيقاظها، ثم الماء، ثم تعويذة النمو.</span>",
-                tools: [
-                    { id: 'water', name: 'الماء', icon: '💧', step: 2, errorMsg: 'يجب تسميد التربة أولاً لإخراجها من السكون!' },
-                    { id: 'dung', name: 'روث التنين', icon: '💩', step: 1, errorMsg: 'لقد قمت بتسميدها بالفعل!' },
-                    { id: 'spell', name: 'تعويذة النمو', icon: '✨', step: 3, errorMsg: 'النبتة جافة! اسقها بالماء أولاً قبل إلقاء التعويذة.' }
-                ],
-                plantPhases: ['🪵', '🌿', '🪴', '🌹'] // Branches -> Sprout -> Potted -> Blooming
-            },
-            {
-                id: 2,
-                type: 'sequence',
-                title: "مهمة الحصاد: الناردين",
-                content: "لجعل الحصاد آمناً، عليك استخدام <strong>تعويذة القطع (ديفيندو)</strong>. <br><span class='text-[#d4af37] font-bold'>اضغط على البطاقات بالترتيب الصحيح لتشكيل حركة العصا السحرية (حرف V):</span>",
-                sequence: ['down', 'up', 'swish'],
-                cards: [
-                    { id: 'swish', text: '3. إنهاء بحركة سريعة', icon: 'fa-wand-sparkles' },
-                    { id: 'down', text: '1. حركة العصا للأسفل', icon: 'fa-arrow-down' },
-                    { id: 'up', text: '2. حركة العصا للأعلى', icon: 'fa-arrow-up' }
-                ]
-            },
-            {
-                id: 3,
-                type: 'outro',
-                title: "نجاح باهر! 🌟",
-                content: "لقد أثبتّ جدارتك كعالم نباتات واعد. لقد زرعت الوردة بنجاح وحصدت الناردين باحترافية!<br><br>البروفيسور ميركل يمنح منزلك <strong>50 نقطة</strong>!",
-                buttonText: "العب مرة أخرى ↺"
+                q: 'إذا بدأت أوراق النبتة بالذبول بعد الري المتكرر، ماذا يعني ذلك؟', //[cite: 1]
+                options: ['تحتاج إلى زيادة كمية الماء فوراً', 'تحتاج إلى الراحة ولا مزيد من الماء', 'تحتاج إلى وضعها في الشمس المباشرة'],
+                answer: 1 //[cite: 1]
             }
         ];
 
-        let currentStageIndex = 0;
-        let sequenceStep = 0;
-        let currentGrowthStep = 0; // For Drag and Drop stage
+        const app = document.getElementById('app');
 
-        const screenContent = document.getElementById('screen-content');
-        const progressBar = document.getElementById('progress-bar');
-        const progressContainer = document.getElementById('progress-container');
-
-        function initGame() {
-            currentStageIndex = 0;
-            progressContainer.classList.add('hidden');
-            renderStage();
+        function renderScreen(screenType) {
+            app.classList.remove('fade-enter-active');
+            app.classList.add('fade-enter');
+            
+            setTimeout(() => {
+                app.innerHTML = '';
+                if (screenType === 'intro') renderIntro();
+                else if (screenType === 'puzzle') renderPuzzle();
+                else if (screenType === 'quiz') renderQuiz();
+                else if (screenType === 'end') renderEnd();
+                
+                app.classList.remove('fade-enter');
+                app.classList.add('fade-enter-active');
+            }, 300);
         }
 
-        function renderStage() {
-            const stage = gameStages[currentStageIndex];
-            screenContent.innerHTML = '';
-            screenContent.className = 'animate-fade-in min-h-[400px] flex flex-col justify-center';
-            
-            if (stage.type !== 'intro' && stage.type !== 'outro') {
-                progressContainer.classList.remove('hidden');
-                progressBar.style.width = `${(currentStageIndex / (gameStages.length - 2)) * 100}%`;
-            }
-
-            const headerHtml = `
-                <h2 class="text-3xl md:text-4xl magical-title text-center text-[#d4af37] mb-6">${stage.title}</h2>
-                <p class="text-xl text-center text-gray-200 mb-8 leading-relaxed">${stage.content}</p>
+        function renderIntro() {
+            app.innerHTML = `
+                <div class="text-center">
+                    <h1 class="text-4xl md:text-6xl mystic-font mb-6 tracking-wide">أسرار المملكة النباتية</h1>
+                    <div class="w-24 h-px bg-[var(--accent)] mx-auto mb-8"></div>
+                    <p class="text-lg md:text-xl leading-relaxed text-gray-300 mb-12 max-w-2xl mx-auto font-light">
+                        بعيداً عن الأروقة المضيئة، تخفي الطبيعة أسرارها بين الجذور والبتلات. هنا نختبر معرفتك الحقيقية بخصائص النباتات وخطورتها. خطأ واحد قد يكلفك الكثير.
+                    </p>
+                    <button onclick="renderScreen('puzzle')" class="btn-mystic">ابدأ الاختبار</button>
+                </div>
             `;
+        }
+
+        // --- PUZZLE MECHANIC ---
+        function renderPuzzle() {
+            gameState.matchesFound = 0;
+            gameState.puzzleSelection = { source: null, target: null };
             
-            let interactiveHtml = '';
+            // Shuffle arrays visually
+            const shuffledSources = [...puzzleData].sort(() => 0.5 - Math.random());
+            const shuffledTargets = [...puzzleTargets].sort(() => 0.5 - Math.random());
 
-            if (stage.type === 'intro' || stage.type === 'outro') {
-                interactiveHtml = `<div class="text-center"><button onclick="nextStage()" class="btn-magic">${stage.buttonText}</button></div>`;
-                screenContent.innerHTML = headerHtml + interactiveHtml;
-            } 
-            else if (stage.type === 'drag-grow') {
-                currentGrowthStep = 0;
-                
-                interactiveHtml = `
-                <div class="flex flex-col md:flex-row gap-10 items-center justify-center mb-8">
-                    <!-- Drop Zone (The Pot) -->
-                    <div id="plant-pot" class="pot-container w-64 h-64 rounded-3xl flex flex-col items-center justify-center text-center p-4 relative" 
-                         ondrop="dropItem(event)" ondragover="allowDrop(event)" ondragleave="leaveDrop(event)">
-                        <div id="plant-visual" class="plant-emoji mb-2">${stage.plantPhases[0]}</div>
-                        <div class="text-gray-300 font-bold tracking-wider" id="pot-label">أصيص التربة</div>
-                        <div class="absolute -bottom-4 bg-[#2c4a35] text-xs px-3 py-1 rounded-full text-white border border-[#d4af37]">اسحب المكونات هنا</div>
+            let html = `
+                <div class="text-center mb-10">
+                    <h2 class="text-3xl mystic-font mb-3">مخطوطة الخصائص (لغز التوصيل)</h2>
+                    <p class="text-sm text-gray-400">انقر على النبات، ثم انقر على الخاصية المطابقة له لربطهما.</p>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-16">
+                    <!-- Column 1: Plants -->
+                    <div class="flex flex-col gap-4" id="puzzle-sources">
+                        ${shuffledSources.map(p => `
+                            <div id="${p.id}" class="puzzle-item p-4 text-center rounded text-lg font-semibold" onclick="selectPuzzleItem('source', '${p.id}', '${p.match}')">
+                                ${p.name}
+                            </div>
+                        `).join('')}
                     </div>
-
-                    <!-- Tools (Draggables) -->
-                    <div class="grid grid-cols-3 md:grid-cols-1 gap-4" id="tools-container">
-                        ${stage.tools.map(tool => `
-                            <div class="interactive-card draggable-item p-4 text-center flex flex-col items-center justify-center gap-2" 
-                                 draggable="true" ondragstart="dragStart(event, '${tool.id}', ${tool.step}, '${tool.errorMsg}')" id="tool-${tool.id}" onclick="clickApplyTool('${tool.id}', ${tool.step}, '${tool.errorMsg}')">
-                                <span class="text-4xl">${tool.icon}</span>
-                                <span class="font-bold">${tool.name}</span>
+                    <!-- Column 2: Properties -->
+                    <div class="flex flex-col gap-4" id="puzzle-targets">
+                        ${shuffledTargets.map(t => `
+                            <div id="${t.id}" class="puzzle-item p-4 text-center rounded text-sm md:text-base" onclick="selectPuzzleItem('target', '${t.id}', null)">
+                                ${t.desc}
                             </div>
                         `).join('')}
                     </div>
                 </div>
-                <div id="feedback" class="text-center text-xl font-bold min-h-[40px] mb-6 p-4 rounded-lg hidden"></div>
-                <div class="text-center"><button id="next-btn" onclick="nextStage()" class="btn-magic hidden">رائع! الوردة أزهرت ➔</button></div>
-                `;
-                screenContent.innerHTML = headerHtml + interactiveHtml;
-            }
-            else if (stage.type === 'sequence') {
-                sequenceStep = 0;
-                const shuffledCards = [...stage.cards].sort(() => Math.random() - 0.5);
-                interactiveHtml = `<div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">`;
-                shuffledCards.forEach(card => {
-                    interactiveHtml += `
-                        <div onclick="handleSequence('${card.id}', this)" class="interactive-card p-6 flex flex-col items-center text-center gap-4">
-                            <i class="fa-solid ${card.icon} text-4xl text-[#2c4a35]"></i>
-                            <span class="font-bold">${card.text}</span>
-                        </div>
-                    `;
-                });
-                interactiveHtml += `</div>
-                <div id="feedback" class="text-center text-xl font-bold min-h-[40px] mb-6 p-4 rounded-lg hidden"></div>
-                <div class="text-center"><button id="next-btn" onclick="nextStage()" class="btn-magic hidden">المهمة التالية ➔</button></div>`;
-                screenContent.innerHTML = headerHtml + interactiveHtml;
+                <div id="puzzle-feedback" class="h-8 mt-6 text-center text-sm tracking-widest transition-opacity duration-300 opacity-0"></div>
+            `;
+            app.innerHTML = html;
+        }
+
+        function selectPuzzleItem(type, id, matchId) {
+            const el = document.getElementById(id);
+            if(el.classList.contains('matched')) return;
+
+            // Deselect previous in same column
+            document.querySelectorAll(`#puzzle-${type}s .puzzle-item`).forEach(item => item.classList.remove('selected'));
+            el.classList.add('selected');
+
+            gameState.puzzleSelection[type] = { id, matchId };
+
+            // Check if both selected
+            if(gameState.puzzleSelection.source && gameState.puzzleSelection.target) {
+                checkMatch();
             }
         }
 
-        // --- Drag and Drop Logic ---
-        function allowDrop(ev) {
-            ev.preventDefault();
-            document.getElementById('plant-pot').classList.add('drag-over');
-        }
-        function leaveDrop(ev) {
-            document.getElementById('plant-pot').classList.remove('drag-over');
-        }
-        function dragStart(ev, toolId, toolStep, errorMsg) {
-            ev.dataTransfer.setData("toolId", toolId);
-            ev.dataTransfer.setData("toolStep", toolStep);
-            ev.dataTransfer.setData("errorMsg", errorMsg);
-        }
-        function dropItem(ev) {
-            ev.preventDefault();
-            document.getElementById('plant-pot').classList.remove('drag-over');
-            
-            const toolId = ev.dataTransfer.getData("toolId");
-            const toolStep = parseInt(ev.dataTransfer.getData("toolStep"));
-            const errorMsg = ev.dataTransfer.getData("errorMsg");
-            
-            processToolApplication(toolId, toolStep, errorMsg);
-        }
+        function checkMatch() {
+            const { source, target } = gameState.puzzleSelection;
+            const feedback = document.getElementById('puzzle-feedback');
 
-        // Mobile Friendly Click Alternative
-        function clickApplyTool(toolId, toolStep, errorMsg) {
-            if(document.getElementById(`tool-${toolId}`).classList.contains('used')) return;
-            processToolApplication(toolId, toolStep, errorMsg);
-        }
+            if(source.matchId === target.id) {
+                // Correct Match
+                document.getElementById(source.id).classList.add('matched', 'selected');
+                document.getElementById(target.id).classList.add('matched', 'selected');
+                feedback.innerText = "تطابق سحري صحيح.";
+                feedback.style.color = "var(--accent)";
+                feedback.style.opacity = 1;
+                gameState.matchesFound++;
 
-        function processToolApplication(toolId, toolStep, errorMsg) {
-            const feedbackEl = document.getElementById('feedback');
-            const plantVisual = document.getElementById('plant-visual');
-            const stageData = gameStages[currentStageIndex];
-
-            feedbackEl.classList.remove('hidden');
-
-            if (toolStep === currentGrowthStep + 1) {
-                // Correct Step!
-                currentGrowthStep++;
-                
-                // Update UI for the tool
-                const toolEl = document.getElementById(`tool-${toolId}`);
-                toolEl.classList.add('used');
-
-                // Animate and change plant
-                plantVisual.classList.remove('grow-animation');
-                void plantVisual.offsetWidth; // Trigger reflow
-                plantVisual.innerHTML = stageData.plantPhases[currentGrowthStep];
-                plantVisual.classList.add('grow-animation');
-
-                // Feedback messages
-                if(currentGrowthStep === 1) {
-                    feedbackEl.className = 'text-center text-lg font-bold min-h-[40px] mb-6 p-4 rounded-lg bg-green-900/50 text-green-300 border border-green-500';
-                    feedbackEl.innerHTML = "✨ ممتاز! روث التنين أنعش التربة والوردة بدأت في الخروج من السكون.";
-                } else if(currentGrowthStep === 2) {
-                    feedbackEl.className = 'text-center text-lg font-bold min-h-[40px] mb-6 p-4 rounded-lg bg-green-900/50 text-green-300 border border-green-500';
-                    feedbackEl.innerHTML = "💧 رائع! تشربت التربة الماء ونمت النبتة أكثر.";
-                } else if(currentGrowthStep === 3) {
-                    feedbackEl.className = 'text-center text-xl font-bold min-h-[40px] mb-6 p-4 rounded-lg bg-yellow-900/50 text-yellow-300 border border-yellow-500';
-                    feedbackEl.innerHTML = "🌹 سحر مذهل! تفتحت وردة روز كارولين بالكامل بفضل تعويذتك.";
-                    document.getElementById('next-btn').classList.remove('hidden');
+                if(gameState.matchesFound === puzzleData.length) {
+                    setTimeout(() => renderScreen('quiz'), 1500);
                 }
             } else {
-                // Wrong Step
-                document.getElementById('plant-pot').classList.add('card-wrong');
-                setTimeout(() => document.getElementById('plant-pot').classList.remove('card-wrong'), 500);
-                
-                feedbackEl.className = 'text-center text-lg font-bold min-h-[40px] mb-6 p-4 rounded-lg bg-red-900/50 text-red-300 border border-red-500';
-                feedbackEl.innerHTML = `❌ ${errorMsg}`;
+                // Wrong Match
+                document.getElementById(source.id).classList.remove('selected');
+                document.getElementById(target.id).classList.remove('selected');
+                feedback.innerText = "تفاعل خاطئ.. احذر.";
+                feedback.style.color = "var(--danger)";
+                feedback.style.opacity = 1;
             }
+
+            // Reset selection state
+            gameState.puzzleSelection = { source: null, target: null };
+            setTimeout(() => { if(gameState.matchesFound !== puzzleData.length) feedback.style.opacity = 0; }, 1500);
         }
 
-        // --- Sequence Logic ---
-        function handleSequence(cardId, element) {
-            const stage = gameStages[currentStageIndex];
-            const targetId = stage.sequence[sequenceStep];
-            const feedbackEl = document.getElementById('feedback');
+        // --- QUIZ MECHANIC ---
+        function renderQuiz() {
+            if(gameState.quizStep >= quizData.length) {
+                renderScreen('end');
+                return;
+            }
 
-            if (cardId === targetId) {
-                element.classList.add('card-selected');
-                element.onclick = null;
-                sequenceStep++;
-                
-                if (sequenceStep === stage.sequence.length) {
-                    feedbackEl.classList.remove('hidden');
-                    feedbackEl.className = 'text-center text-xl font-bold min-h-[40px] mb-6 p-4 rounded-lg bg-green-900/50 text-green-300 border border-green-500';
-                    feedbackEl.innerHTML = `✨ <strong>ديفيندو!</strong> تم قطع الناردين بنجاح!`;
-                    document.getElementById('next-btn').classList.remove('hidden');
-                }
+            const q = quizData[gameState.quizStep];
+            let html = `
+                <div class="mb-10 flex justify-between items-center text-sm text-gray-500">
+                    <span>اختبار المعرفة (${gameState.quizStep + 1} / ${quizData.length})</span>
+                </div>
+                <h2 class="text-2xl md:text-3xl mystic-font mb-8 leading-relaxed">${q.q}</h2>
+                <div class="flex flex-col gap-4">
+                    ${q.options.map((opt, index) => `
+                        <button class="quiz-option text-right p-4 rounded text-lg focus:outline-none" onclick="checkAnswer(${index}, ${q.answer}, this)">
+                            ${opt}
+                        </button>
+                    `).join('')}
+                </div>
+            `;
+            app.innerHTML = html;
+        }
+
+        function checkAnswer(selectedIndex, correctIndex, element) {
+            // Disable all buttons
+            document.querySelectorAll('.quiz-option').forEach(btn => {
+                btn.onclick = null;
+                btn.style.opacity = '0.5';
+            });
+            
+            element.style.opacity = '1';
+
+            if(selectedIndex === correctIndex) {
+                element.style.borderRightColor = 'var(--accent)';
+                element.style.backgroundColor = 'rgba(139, 156, 123, 0.1)';
+                setTimeout(() => {
+                    gameState.quizStep++;
+                    renderQuiz();
+                }, 1000);
             } else {
-                element.classList.add('card-wrong');
-                feedbackEl.classList.remove('hidden');
-                feedbackEl.className = 'text-center text-lg font-bold min-h-[40px] mb-6 p-4 rounded-lg bg-red-900/50 text-red-300 border border-red-500';
-                feedbackEl.innerHTML = `❌ حركة خاطئة! (للأسفل، ثم للأعلى، ثم Swish). جرب مجدداً!`;
-                setTimeout(() => renderStage(), 2000);
+                element.style.borderRightColor = 'var(--danger)';
+                element.style.backgroundColor = 'rgba(122, 59, 59, 0.2)';
+                // Reset step on failure (Hardcore mode)
+                setTimeout(() => {
+                    gameState.quizStep = 0;
+                    renderScreen('puzzle'); // Sent back to start!
+                }, 1500);
             }
         }
 
-        function nextStage() {
-            currentStageIndex++;
-            if (currentStageIndex >= gameStages.length) initGame();
-            else renderStage();
+        // --- END SCREEN ---
+        function renderEnd() {
+            app.innerHTML = `
+                <div class="text-center">
+                    <i class="fa-solid fa-leaf text-4xl mb-6 text-[var(--accent)] opacity-80"></i>
+                    <h1 class="text-4xl mystic-font mb-6 text-[var(--accent)]">لقد أثبتّ جدارتك</h1>
+                    <p class="text-lg text-gray-400 max-w-xl mx-auto mb-10 leading-relaxed">
+                        معرفتك الدقيقة بعلم النباتات تميزك عن الهواة. أنت الآن جاهز للتعامل مع الجرعات المعقدة داخل أروقة العالم السحري.
+                    </p>
+                    <button onclick="gameState.quizStep = 0; renderScreen('intro')" class="btn-mystic text-sm">العودة للبداية</button>
+                </div>
+            `;
         }
 
-        window.onload = initGame;
+        // Start App
+        window.onload = () => renderScreen('intro');
+
     </script>
 </body>
 </html>
